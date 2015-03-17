@@ -3,11 +3,6 @@ import subprocess, sys, re, time, random, argparse
 
 from subprocess import call, Popen, PIPE
 from argparse import ArgumentParser
-#from subprocess import Popen
-#from subprocess import PIPE
-
-#print sys.argv
-#sys.exit(0)
 
 parser = ArgumentParser(description='KARMA honeypot.')
 parser.add_argument('-i', metavar='interface', action="store", default=False, help='wireless interface', required=True)
@@ -32,13 +27,8 @@ def runcommand(command1):
 	return errput + output;
 def runmdk3_nowait(command1):
 	"This runs a command and does not wait for or capture output."
-#	DETACHED_PROCESS = 0x00000008
-#       Temp=call(command1.split())
 	with open ("mdk3.log", "w+") as out, open("stderr.txt", "w+") as err:
 		Popen(command1.split(),stdout=out,stdin=None,stderr=err)
-        #(output,errput)=Temp.communicate()
-        #return_value=Temp.wait()
-        #return errput + output;
 	return;
 def getmoninterface(input):
 	for line in input.split('\n'):
@@ -66,8 +56,6 @@ def readmdk3():
 		for line in myfile:
 			if "Disconnecting between: " in line:
 				log ("Liberation! " + line.strip())
-		#data=myfile.read()
-		#print data
 	return
 def printnewmac(input):
 	for line in input.split('\n'):
@@ -92,7 +80,6 @@ def createSSID():
 	        log ("Exiting...")
 		sys.exit(-1)
 	else:
-	        #print output
 		output=runcommand ("macchanger -r " + interface)
 		printnewmac(output)
 		output=runcommand("iwconfig " + interface + " essid " + essid)
@@ -102,7 +89,6 @@ def createSSID():
 def lookforjoin():
 	"This checks iwconfig for mac indicating join"
 	output=runcommand ("iwconfig " + interface)
-	#print output
 	a = 0
 	while a < 10:
 		try:
@@ -122,7 +108,6 @@ def lookforjoin():
 def killAP():
 	runcommand("pkill mdk3")
 	output=runmdk3_nowait("mdk3 " + intmon + " d -b blacklist")
-	#print output
 	return;
 
 def cleanup():
@@ -137,7 +122,7 @@ def cleanup():
 	runcommand("iwconfig " + interface + " essid any")
 	runcommand("ifconfig " + interface + " up")
 	log("Starting network-manager...")
-	#runcommand("service network-manager start")
+	runcommand("service network-manager start")
 	return;
 
 output=runcommand ("ifconfig " + interface);
@@ -151,7 +136,6 @@ else:
 		setstage();
 		time.sleep(3);
 		while True:
-			#runcommand("pkill mdk3")
 			createSSID();
 			killAP();
 			lookforjoin();
