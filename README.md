@@ -22,3 +22,6 @@ $ ./badkarma.py -i wlan0
 </code>
 To exit, press ctrl-c
 
+# More Info
+http://atechdad.com/karma-rouge-accesspoint-offense-with-badkarma-py
+
