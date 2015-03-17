@@ -20,4 +20,5 @@ Auto detection of karma honeypot and automated deauth of all connected clients.
 <code>
 $ ./badkarma.py -i wlan0
 </code>
+To exit, press ctrl-c
 
